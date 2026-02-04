@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Point : MonoBehaviour
+public class SharpenTool : MonoBehaviour
 {
-    [SerializeField] private    float   speed = 5f;
-    private                     int     direction = 1;
+    [SerializeField] private float speed = 5f;
+    private int direction = 1;
 
     void Update()
     {
@@ -11,7 +11,7 @@ public class Point : MonoBehaviour
         transform.Translate(movement, 0, 0);
     }
 
-    public void OnClick()
+    public void OnHold()
     {
         direction *= -1;
     }
