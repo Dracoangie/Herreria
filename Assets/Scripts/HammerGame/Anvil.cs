@@ -1,16 +1,33 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Anvil : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private List<GameObject> onTrigger = new List<GameObject>();
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Arrow"))
+            onTrigger.Add(other.gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Arrow"))
+        {
+            GameController controller = Object.FindFirstObjectByType<GameController>();
+            if (controller != null)
+                controller.stopHammer(false);
+        }
+    }
+
+    public void OnClick()
+    {
+        if (onTrigger.Count > 0)
+        {
+            onTrigger[0].SetActive(false);
+            onTrigger.RemoveAt(0);
+        }
     }
 }

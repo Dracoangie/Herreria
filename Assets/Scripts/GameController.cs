@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     IEnumerator ForgeS()
     {
         yield return new WaitForSeconds(.2f);
-        StartForge();
+        //StartForge();
         yield return null;
     }
 

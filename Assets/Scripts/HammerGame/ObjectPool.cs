@@ -12,14 +12,17 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField] private float lifetime = 4f;
 
+    [SerializeField] private float speed = 1f;
+
     private Queue<GameObject> pool = new Queue<GameObject>();
 
     void Start()
     {
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject obj = Instantiate(prefab);
+            GameObject obj = Instantiate(prefab, this.transform);
             obj.SetActive(false);
+            obj.GetComponent<Rigidbody2D>().gravityScale = speed;
             pool.Enqueue(obj);
         }
 
@@ -52,7 +55,7 @@ public class ObjectPool : MonoBehaviour
         if (obj.activeSelf)
         {
             obj.SetActive(false);
-            pool.Enqueue(obj);
         }
+        pool.Enqueue(obj);
     }
 }
