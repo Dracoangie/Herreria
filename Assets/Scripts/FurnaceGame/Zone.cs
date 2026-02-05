@@ -4,13 +4,20 @@ public class Zone : MonoBehaviour
 {
     [SerializeField] private float maxX = 4f;
     [SerializeField] private float localScaleX = 5;
+    private Vector3 origen;
 
     private void OnEnable()
     {
         transform.localScale = new Vector3(transform.localScale.x, localScaleX, transform.localScale.z);
+        origen = transform.position;
     }
 
-    public void ChangePlace(float pointDir, float pointX)
+	private void OnDisable()
+  {
+    transform.position = origen;
+  }
+
+	public void ChangePlace(float pointDir, float pointX)
     {
         float actX = (pointDir > 0) ? Random.Range(-maxX, pointX - 1) : Random.Range(pointX +1, maxX);
 

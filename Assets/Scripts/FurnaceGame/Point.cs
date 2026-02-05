@@ -5,11 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Point : MonoBehaviour
 {
-    [SerializeField] private float maxX = 5f;
+    [SerializeField] private float maxX = 6f;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float changeSpeed = 20f;
     private Zone zone = null;
     private float normalSpeed = 0;
+    private Vector3 origen;
 
     private float dir = 1f;
     private float dirAux = 1f;
@@ -18,10 +19,18 @@ public class Point : MonoBehaviour
 
     void Start()
     {
+        origen = transform.localPosition;
+        Debug.Log(origen);
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
+	private void OnDisable()
+	{
+        transform.localPosition = origen;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+	}
+
+	private void OnEnable()
     {
         normalSpeed = 0;
         StartCoroutine(StartMove());

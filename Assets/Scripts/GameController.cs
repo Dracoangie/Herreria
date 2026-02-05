@@ -4,42 +4,66 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject forge;
+    [SerializeField] private GameObject forgeButton;
     [SerializeField] private GameObject hammer;
+    [SerializeField] private GameObject hammerButton;
     [SerializeField] private GameObject sharp;
+    [SerializeField] private GameObject gameFail;
 
     public int points;
 
     void Start()
     {
-        StartCoroutine(ForgeS());
+        StartCoroutine(NextGoblin());
     }
 
-    IEnumerator ForgeS()
+    IEnumerator NextGoblin()
     {
         yield return new WaitForSeconds(.2f);
-        //StartForge();
+        forgeButton.SetActive(true);
         yield return null;
+    }
+
+    private void GameFail()
+    {
+        gameFail.SetActive(true);
+    }
+
+    public void ResetScene()
+    {
+        Debug.Log("Reset");
     }
 
     #region ActiveGames
     public void StartForge()
     {
+        forgeButton.SetActive(false);
         forge.SetActive(true);
     }
 
     public void stopForge(bool condition)
     {
         forge.SetActive(false);
+        if (condition)
+            hammerButton.SetActive(true);
+        else
+            GameFail();
     }
 
     public void StartHammer()
     {
         hammer.SetActive(true);
+        hammerButton.SetActive(false);
     }
 
     public void stopHammer(bool condition)
     {
         hammer.SetActive(false);
+        if (condition){
+            points++;
+        StartCoroutine(NextGoblin());}
+        else
+            GameFail();
     }
     public void StartSharp()
     {

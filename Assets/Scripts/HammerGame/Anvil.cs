@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Anvil : MonoBehaviour
@@ -24,6 +23,7 @@ public class Anvil : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log("HOla");
         if (onTrigger.Count > 0)
         {
             onTrigger[0].SetActive(false);
