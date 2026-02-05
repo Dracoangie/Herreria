@@ -15,19 +15,27 @@ public class Anvil : MonoBehaviour
     {
         if (other.CompareTag("Arrow"))
         {
-            GameController controller = Object.FindFirstObjectByType<GameController>();
-            if (controller != null)
-                controller.stopHammer(false);
+            if(onTrigger.Contains(other.gameObject))
+            {
+                GameController controller = Object.FindFirstObjectByType<GameController>();
+                if (controller != null)
+                    controller.stopHammer(false);
+            }
         }
     }
 
     public void OnClick()
     {
-        Debug.Log("HOla");
         if (onTrigger.Count > 0)
         {
-            onTrigger[0].SetActive(false);
+            var aux = onTrigger[0];
             onTrigger.RemoveAt(0);
+            aux.SetActive(false);
         }
+    }
+
+    void OnDisable()
+    {
+        onTrigger.Clear();
     }
 }
