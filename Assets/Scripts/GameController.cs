@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -9,11 +11,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject hammerButton;
     [SerializeField] private GameObject sharp;
     [SerializeField] private GameObject gameFail;
+    [SerializeField] private TextMeshProUGUI roundText;
 
     public int points;
 
     void Start()
     {
+        roundText.text = "Round:  " + points.ToString();
         StartCoroutine(NextGoblin());
     }
 
@@ -31,7 +35,7 @@ public class GameController : MonoBehaviour
 
     public void ResetScene()
     {
-        Debug.Log("Reset");
+        SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex);
     }
 
     #region ActiveGames
@@ -62,6 +66,7 @@ public class GameController : MonoBehaviour
         if (condition)
         {
             points++;
+            roundText.text = "Round: " + points.ToString();
             StartCoroutine(NextGoblin());
         }
         else
