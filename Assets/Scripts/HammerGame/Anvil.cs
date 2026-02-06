@@ -16,7 +16,6 @@ public class Anvil : MonoBehaviour
 
 	void Update()
     {
-        Debug.Log(timeAux);
 		if(timeAux > 0)
             timeAux -= Time.deltaTime;
         else

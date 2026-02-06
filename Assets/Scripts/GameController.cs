@@ -14,16 +14,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI roundText;
 
     public int points;
+    private Animator animator;
 
     void Start()
     {
         roundText.text = "Round:  " + points.ToString();
-        StartCoroutine(NextGoblin());
+        animator = GetComponent<Animator>();
+        StartCoroutine(NextGoblin(2.5f));
     }
 
-    IEnumerator NextGoblin()
+    IEnumerator NextGoblin(float waittime)
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(waittime);
         forgeButton.SetActive(true);
         yield return null;
     }
@@ -65,9 +67,10 @@ public class GameController : MonoBehaviour
         hammer.SetActive(false);
         if (condition)
         {
+            animator.SetTrigger("RoundEnd");
             points++;
             roundText.text = "Round: " + points.ToString();
-            StartCoroutine(NextGoblin());
+            StartCoroutine(NextGoblin(5f));
         }
         else
             GameFail();

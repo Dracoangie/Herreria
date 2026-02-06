@@ -57,7 +57,6 @@ public class ObjectPool : MonoBehaviour
 
             if (pool.Count > 0)
             {
-                Debug.Log("obj");
                 GameObject obj = pool.Dequeue();
 
                 obj.transform.localPosition = Vector3.zero;

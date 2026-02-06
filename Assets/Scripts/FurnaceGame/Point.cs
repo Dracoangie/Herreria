@@ -92,8 +92,6 @@ public class Point : MonoBehaviour
             yield return null;
         }
         normalSpeed = speed;
-        Debug.Log(normalSpeed);
-        Debug.Log(speed);
     }
 
     private IEnumerator BadEnd()
