@@ -9,15 +9,24 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private GameObject prefab;
     [SerializeField] private int poolSize = 20;
 
-    [SerializeField] private float minWaitTime = 0.2f;
-    [SerializeField] private float maxWaitTime = 8.0f;
+    private float minWaitTime = 0.2f;
+    private float maxWaitTime = 8.0f;
+    [SerializeField] private float baseMinWait = 1.0f;
+    [SerializeField] private float baseMaxWait = 3.0f;
+    [SerializeField] private float absoluteMinLimit = 0.2f;
 
     public float lifetime = 4f;
     public float speed = 1f;
+    private float baseSpeed = 1f;
 
     private Queue<GameObject> pool = new Queue<GameObject>();
 
-    void OnDisable()
+	void Awake()
+    {
+        baseSpeed = speed;
+    }
+
+	void OnDisable()
     {
         pool.Clear();
         for (int i = 0; i < this.gameObject.transform.childCount; i++)
@@ -26,6 +35,10 @@ public class ObjectPool : MonoBehaviour
 
 	void OnEnable()
 	{
+        GameController controller = Object.FindFirstObjectByType<GameController>();
+        speed = baseSpeed + Mathf.Sqrt(controller.points);
+        minWaitTime = Mathf.Max(baseMinWait / (1f + (controller.points * 0.1f)), absoluteMinLimit);
+        maxWaitTime = Mathf.Max(baseMaxWait / (1f + (controller.points * 0.1f)), absoluteMinLimit + 0.5f);
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(prefab, this.transform);

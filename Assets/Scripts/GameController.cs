@@ -59,9 +59,11 @@ public class GameController : MonoBehaviour
     public void stopHammer(bool condition)
     {
         hammer.SetActive(false);
-        if (condition){
+        if (condition)
+        {
             points++;
-        StartCoroutine(NextGoblin());}
+            StartCoroutine(NextGoblin());
+        }
         else
             GameFail();
     }

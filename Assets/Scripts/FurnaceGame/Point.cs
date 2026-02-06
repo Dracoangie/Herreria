@@ -5,8 +5,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Point : MonoBehaviour
 {
-    [SerializeField] private float maxX = 6f;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float baseSpeed = 5f;
+    private float speed;
     [SerializeField] private float changeSpeed = 20f;
     private Zone zone = null;
     private float normalSpeed = 0;
@@ -17,24 +17,47 @@ public class Point : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    [SerializeField] private float defaultMaxX = 6f;
+    private float currentMaxX;
+
     void Start()
     {
         origen = transform.localPosition;
-        Debug.Log(origen);
         rb = GetComponent<Rigidbody2D>();
+        currentMaxX = defaultMaxX;
+    }
+
+    private void OnEnable()
+    {
+        dir = 1f; 
+        dirAux = 1f;
+        currentMaxX = defaultMaxX;
+        
+        speed = baseSpeed + Mathf.Sqrt(Object.FindFirstObjectByType<GameController>().points);
+        normalSpeed = 0;
+        StartCoroutine(StartMove());
+    }
+
+    void Update()
+    {
+        dirAux = Mathf.MoveTowards(dirAux, dir, changeSpeed * Time.deltaTime);
+        transform.Translate(dirAux * normalSpeed * Time.deltaTime, 0, 0);
+
+        if(transform.localPosition.x > currentMaxX || transform.localPosition.x < -currentMaxX)
+        {
+            currentMaxX = 200f;
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = 4f;
+            StartCoroutine(BadEnd());
+        }
     }
 
 	private void OnDisable()
 	{
         transform.localPosition = origen;
+        rb.gravityScale = 0f;
         rb.bodyType = RigidbodyType2D.Kinematic;
 	}
-
-	private void OnEnable()
-    {
-        normalSpeed = 0;
-        StartCoroutine(StartMove());
-    }
 
     IEnumerator StartMove()
     {
@@ -69,20 +92,8 @@ public class Point : MonoBehaviour
             yield return null;
         }
         normalSpeed = speed;
-    }
-
-    void Update()
-    {
-        dirAux = Mathf.MoveTowards(dirAux, dir, changeSpeed * Time.deltaTime);
-
-        transform.Translate(dirAux * normalSpeed * Time.deltaTime, 0, 0);
-        if(transform.localPosition.x > maxX || transform.localPosition.x < -maxX)
-        {
-            maxX = 200;
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 4f;
-            StartCoroutine(BadEnd());
-        }
+        Debug.Log(normalSpeed);
+        Debug.Log(speed);
     }
 
     private IEnumerator BadEnd()

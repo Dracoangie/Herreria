@@ -328,9 +328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a644a70f67f144283339ff71fb6423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Point
-  maxX: 4
-  speed: 7.5
-  changeSpeed: 15
+  baseSpeed: 5
+  changeSpeed: 20
+  defaultMaxX: 6
 --- !u!1 &83470575
 GameObject:
   m_ObjectHideFlags: 0
@@ -7072,7 +7072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &692350492
 Transform:
   m_ObjectHideFlags: 0
@@ -8218,8 +8218,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
   prefab: {fileID: 462550781711309679, guid: c4d0b455d964103479158f4ea7267d25, type: 3}
   poolSize: 20
-  minWaitTime: 0.2
-  maxWaitTime: 1
+  baseMinWait: 1
+  baseMaxWait: 3
+  absoluteMinLimit: 0.2
   lifetime: 6
   speed: 2
 --- !u!1 &1163361150
@@ -9666,6 +9667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41eb18a0f408e24694bfcbef55406cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Anvil
+  time: 10
 --- !u!1 &2147010595
 GameObject:
   m_ObjectHideFlags: 0

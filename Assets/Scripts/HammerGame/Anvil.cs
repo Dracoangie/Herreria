@@ -4,8 +4,28 @@ using UnityEngine;
 public class Anvil : MonoBehaviour
 {
     private List<GameObject> onTrigger = new List<GameObject>();
+    [SerializeField] private float time = 5f;
+    private float timeAux = 0f;
+    private GameController controller;
 
-    private void OnTriggerEnter2D(Collider2D other)
+	void OnEnable()
+    {
+        timeAux = time;
+        controller = Object.FindFirstObjectByType<GameController>();
+    }
+
+	void Update()
+    {
+        Debug.Log(timeAux);
+		if(timeAux > 0)
+            timeAux -= Time.deltaTime;
+        else
+        {
+            controller.stopHammer(true);
+        }
+}
+
+	private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Arrow"))
             onTrigger.Add(other.gameObject);
@@ -17,7 +37,6 @@ public class Anvil : MonoBehaviour
         {
             if(onTrigger.Contains(other.gameObject))
             {
-                GameController controller = Object.FindFirstObjectByType<GameController>();
                 if (controller != null)
                     controller.stopHammer(false);
             }

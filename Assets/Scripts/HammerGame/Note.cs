@@ -22,7 +22,6 @@ public class Note : MonoBehaviour
     void OnEnable() 
     {
         rb.linearVelocity = Vector2.down * speed;
-        
         StartCoroutine(Deactive(this.gameObject));
     }
 
